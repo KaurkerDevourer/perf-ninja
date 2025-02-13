@@ -1,0 +1,18 @@
+cmake -E make_directory build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build . --config Release --parallel 8
+cmake --build . --target validateLab
+cmake --build . --target benchmarkLab
+
+
+python3 ~/perf-ninja/tools/check_speedup.py -lab_path ../ -num_runs 3
+
+
+# 1. Benchmark the baseline and save the score into a JSON file
+./lab --benchmark_min_time=1 --benchmark_out_format=json --benchmark_out=baseline.json
+# 2. Change the code
+# 3. Benchmark your solution and save the score into a JSON file
+./lab --benchmark_min_time=1 --benchmark_out_format=json --benchmark_out=solution.json
+# 4. Compare solution.json against baseline.json
+~/benchmark/tools/compare.py benchmarks baseline.json solution.json
