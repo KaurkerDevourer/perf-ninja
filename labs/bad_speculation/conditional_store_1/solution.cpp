@@ -8,8 +8,7 @@
     std::size_t count = 0;
     for (const auto item : input) {
       output[count] = item;
-      bool cond = (lower <= item.first) && (item.first <= upper);
-      count = cond ? count + 1 : count;
+      count += ((lower <= item.first) && (item.first <= upper));
     }
     return count;
   }
